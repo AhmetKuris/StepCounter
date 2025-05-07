@@ -21,6 +21,9 @@ app.MapControllers();
 
 app.MapOpenApi();
 
+// Add health check endpoint
+app.MapGet("/", () => "StepCounter API is running!");
+
 var serverUrl = builder.Configuration["App:ServerUrl"] ?? "http://localhost:7777";
 
 app.MapScalarApiReference(options => {

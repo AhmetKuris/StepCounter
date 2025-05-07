@@ -1,0 +1,6 @@
+services:
+  stepcounter.api:
+    image: ${DOCKER_REGISTRY-}stepcounterapi
+    build:
+      context: StepCounter.Api
+      dockerfile: Dockerfile

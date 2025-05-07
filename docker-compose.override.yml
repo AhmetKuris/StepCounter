@@ -1,0 +1,12 @@
+services:
+  stepcounter.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=7777
+      - ASPNETCORE_HTTPS_PORTS=7778
+    ports:
+      - '7777:7777'
+      - '7778:7778'
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

@@ -1,0 +1,16 @@
+  {
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "stepcounter.api": "StartDebugging"
+      },
+      "applicationUrl": "https://localhost:7778;http://localhost:7777",
+      "publishAllPorts": true,
+      "useSSL": true,
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/scalar"
+    }
+  }
+}

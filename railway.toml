@@ -3,6 +3,5 @@ builder = "DOCKERFILE"
 dockerfilePath = "StepCounter.Api/Dockerfile"
 
 [deploy]
-startCommand = "dotnet out/StepCounter.Api.dll"
 healthcheckPath = "/"
 healthcheckTimeout = 100 

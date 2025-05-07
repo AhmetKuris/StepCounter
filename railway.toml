@@ -1,6 +1,6 @@
 [build]
-builder = "nixpacks"
-buildCommand = "dotnet publish StepCounter.Api/StepCounter.Api.csproj -c Release -o out"
+builder = "DOCKERFILE"
+dockerfilePath = "StepCounter.Api/Dockerfile"
 
 [deploy]
 startCommand = "dotnet out/StepCounter.Api.dll"

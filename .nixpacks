@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["dotnet-sdk_9"]
+
+[phases.install]
+cmds = ["cd StepCounter.Api && dotnet restore"]
+
+[phases.build]
+cmds = ["cd StepCounter.Api && dotnet publish -c Release -o out"]
+
+[start]
+cmd = "cd StepCounter.Api && dotnet out/StepCounter.Api.dll" 

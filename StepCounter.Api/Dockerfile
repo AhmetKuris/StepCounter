@@ -7,15 +7,13 @@ WORKDIR /app
 EXPOSE 7777
 EXPOSE 7778
 
-
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["StepCounter.Api/StepCounter.Api.csproj", "StepCounter.Api/"]
-RUN dotnet restore "StepCounter.Api/StepCounter.Api.csproj"
+COPY ["StepCounter.Api.csproj", "./"]
+RUN dotnet restore
 COPY . .
-WORKDIR "/src/StepCounter.Api"
 RUN dotnet build "StepCounter.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

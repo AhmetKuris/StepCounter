@@ -1,7 +1,5 @@
 # Step Counter API
 
-A company-wide steps leaderboard application for teams of employees. This application allows tracking step counts for teams and individual team members, providing a competitive and engaging way to promote physical activity in the workplace.
-
 ## Features
 
 - Create and manage teams
@@ -14,7 +12,7 @@ A company-wide steps leaderboard application for teams of employees. This applic
 
 ## Prerequisites
 
-- .NET 8.0 SDK or later
+- .NET 9.0 SDK
 - Visual Studio 2022 or later (recommended)
 - Git
 
@@ -42,7 +40,7 @@ The API will be available at `https://localhost:5001` and `http://localhost:5000
 
 ## API Documentation
 
-The API documentation is available through Swagger UI at `/swagger` when running the application.
+The API documentation is available through Scalar UI at `/scalar` when running the application.
 
 ### Teams API
 
@@ -178,15 +176,3 @@ The project includes unit tests. To run the tests:
 ```bash
 dotnet test
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 

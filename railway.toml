@@ -5,6 +5,4 @@ buildCommand = "cd StepCounter.Api && dotnet publish -c Release -o out"
 [deploy]
 startCommand = "cd StepCounter.Api && dotnet out/StepCounter.Api.dll"
 healthcheckPath = "/"
-healthcheckTimeout = 100
-restartPolicyType = "on-failure"
-restartPolicyMaxRetries = 10 
+healthcheckTimeout = 100 

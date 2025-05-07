@@ -12,57 +12,78 @@ public class TeamService
         _repository = repository;
     }
 
-    public IEnumerable<Team> GetAllTeams() => _repository.GetAll();
+    public async Task<IEnumerable<Team>> GetAllTeamsAsync() => await _repository.GetAllAsync();
 
-    public Team? GetTeam(Guid id) => _repository.GetById(id);
+    public async Task<Team?> GetTeamAsync(Guid id) => await _repository.GetByIdAsync(id);
 
-    public void CreateTeam(string name)
+    public async Task<Team> CreateTeamAsync(string name)
     {
-        _repository.Add(new Team { Name = name });
+        var team = new Team { Name = name };
+        return await _repository.AddAsync(team);
     }
 
-    public void DeleteTeam(Guid id)
+    public async Task DeleteTeamAsync(Guid id)
     {
-        _repository.Remove(id);
+        await _repository.RemoveAsync(id);
     }
 
-    public void AddCounter(Guid teamId, string name)
+    public async Task<Counter> AddCounterAsync(Guid teamId, string name)
     {
-        var team = _repository.GetById(teamId);
-        if (team == null) return;
+        var team = await _repository.GetByIdAsync(teamId);
+        if (team == null) throw new KeyNotFoundException($"Team with ID {teamId} not found");
 
-        team.Counters.Add(new Counter { Name = name });
+        var counter = new Counter { Name = name };
+        team.Counters.Add(counter);
+        var updatedTeam = await _repository.UpdateAsync(team);
+        
+        var addedCounter = updatedTeam.Counters.FirstOrDefault(c => c.Name == name);
+        if (addedCounter == null)
+            throw new InvalidOperationException($"Failed to add counter '{name}' to team {teamId}. The counter was not found in the updated team.");
+
+        return addedCounter;
     }
 
-    public void RemoveCounter(Guid teamId, Guid counterId)
+    public async Task RemoveCounterAsync(Guid teamId, Guid counterId)
     {
-        var team = _repository.GetById(teamId);
-        if (team == null) return;
+        var team = await _repository.GetByIdAsync(teamId);
+        if (team == null) throw new KeyNotFoundException($"Team with ID {teamId} not found");
 
         var counter = team.Counters.FirstOrDefault(c => c.Id == counterId);
-        if (counter != null)
-            team.Counters.Remove(counter);
+        if (counter == null) throw new KeyNotFoundException($"Counter with ID {counterId} not found");
+
+        team.Counters.Remove(counter);
+        await _repository.UpdateAsync(team);
     }
 
-    public void IncrementCounter(Guid teamId, Guid counterId, int steps)
+    public async Task<Counter> IncrementCounterAsync(Guid teamId, Guid counterId, int steps)
     {
-        var team = _repository.GetById(teamId);
-        if (team == null) return;
+        var team = await _repository.GetByIdAsync(teamId);
+        if (team == null) throw new KeyNotFoundException($"Team with ID {teamId} not found");
 
         var counter = team.Counters.FirstOrDefault(c => c.Id == counterId);
-        if (counter != null)
-            counter.Steps += steps;
+        if (counter == null) throw new KeyNotFoundException($"Counter with ID {counterId} not found");
+
+        counter.Steps += steps;
+        var updatedTeam = await _repository.UpdateAsync(team);
+        
+        var updatedCounter = updatedTeam.Counters.FirstOrDefault(c => c.Id == counterId);
+        if (updatedCounter == null)
+            throw new InvalidOperationException($"Failed to update counter {counterId} in team {teamId}. The counter was not found in the updated team.");
+
+        return updatedCounter;
     }
 
-    public int GetTeamTotalSteps(Guid teamId)
+    public async Task<int> GetTeamTotalStepsAsync(Guid teamId)
     {
-        var team = _repository.GetById(teamId);
-        return team?.Counters.Sum(c => c.Steps) ?? 0;
+        var team = await _repository.GetByIdAsync(teamId);
+        if (team == null) throw new KeyNotFoundException($"Team with ID {teamId} not found");
+        return team.Counters.Sum(c => c.Steps);
     }
 
-    public IEnumerable<Counter> GetCounters(Guid teamId)
+    public async Task<IEnumerable<Counter>> GetCountersAsync(Guid teamId)
     {
-        var team = _repository.GetById(teamId);
-        return team?.Counters ?? Enumerable.Empty<Counter>();
+        var team = await _repository.GetByIdAsync(teamId);
+        if (team == null) throw new KeyNotFoundException($"Team with ID {teamId} not found");
+        return team.Counters;
     }
 }

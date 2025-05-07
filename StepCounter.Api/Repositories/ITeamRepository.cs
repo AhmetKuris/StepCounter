@@ -4,9 +4,9 @@ namespace StepCounter.Api.Repositories;
 
 public interface ITeamRepository
 {
-    IEnumerable<Team> GetAll();
-    Team? GetById(Guid id);
-    void Add(Team team);
-    void Remove(Guid id);
-    void Update(Team team);
+    Task<IEnumerable<Team>> GetAllAsync();
+    Task<Team?> GetByIdAsync(Guid id);
+    Task<Team> AddAsync(Team team);
+    Task RemoveAsync(Guid id);
+    Task<Team> UpdateAsync(Team team);
 }

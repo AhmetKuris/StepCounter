@@ -6,21 +6,27 @@ public class InMemoryTeamRepository : ITeamRepository
 {
     private readonly List<Team> _teams = new();
 
-    public IEnumerable<Team> GetAll() => _teams;
+    public Task<IEnumerable<Team>> GetAllAsync() => Task.FromResult(_teams.AsEnumerable());
 
-    public Team? GetById(Guid id) => _teams.FirstOrDefault(t => t.Id == id);
+    public Task<Team?> GetByIdAsync(Guid id) => Task.FromResult(_teams.FirstOrDefault(t => t.Id == id));
 
-    public void Add(Team team) => _teams.Add(team);
-
-    public void Remove(Guid id)
+    public Task<Team> AddAsync(Team team)
     {
-        var team = GetById(id);
-        if (team != null)
-            _teams.Remove(team);
+        _teams.Add(team);
+        return Task.FromResult(team);
     }
 
-    public void Update(Team team)
+    public Task RemoveAsync(Guid id)
+    {
+        var team = _teams.FirstOrDefault(t => t.Id == id);
+        if (team != null)
+            _teams.Remove(team);
+        return Task.CompletedTask;
+    }
+
+    public Task<Team> UpdateAsync(Team team)
     {
         // In-memory update is no-op as we return by reference
+        return Task.FromResult(team);
     }
 }

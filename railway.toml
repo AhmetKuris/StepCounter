@@ -1,8 +1,8 @@
 [build]
 builder = "nixpacks"
-buildCommand = "cd StepCounter.Api && dotnet publish -c Release -o out"
+buildCommand = "dotnet publish StepCounter.Api/StepCounter.Api.csproj -c Release -o out"
 
 [deploy]
-startCommand = "cd StepCounter.Api && dotnet out/StepCounter.Api.dll"
+startCommand = "dotnet out/StepCounter.Api.dll"
 healthcheckPath = "/"
 healthcheckTimeout = 100 

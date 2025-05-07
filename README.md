@@ -1,5 +1,7 @@
 # Step Counter API
 
+Link to test it online => https://stepcounter-test.up.railway.app/scalar/
+
 ## Features
 
 - Create and manage teams
